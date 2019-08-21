@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Processor CopyAssets 插件源码分析 | Hexo.tv</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这是一个 Hexo 的文件处理插件，能自定义 source 中的指定文件或文件夹，在执行generate命令的时候能直接复制到public文件夹中而不经过渲染。">
+<meta name="keywords" content="源码分析,插件,Assets">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Processor CopyAssets 插件源码分析">
+<meta property="og:url" content="https://hexo.tv/2019/08/22/Processor-CopyAssets-Plugin/index.html">
+<meta property="og:site_name" content="Hexo.tv">
+<meta property="og:description" content="这是一个 Hexo 的文件处理插件，能自定义 source 中的指定文件或文件夹，在执行generate命令的时候能直接复制到public文件夹中而不经过渲染。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-08-21T17:52:54.289Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Processor CopyAssets 插件源码分析">
+<meta name="twitter:description" content="这是一个 Hexo 的文件处理插件，能自定义 source 中的指定文件或文件夹，在执行generate命令的时候能直接复制到public文件夹中而不经过渲染。">
+  
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+</html>
+<body style="
+
+
+  background-color: #eff0f6
+
+">
+  <div id="container">
+    <nav id="nav">
+  <header class="header">
+    <a href="/" class="title">Hexo TV</a>
+  </header>
+  <div class="ctnWrap">
+    <div class="icons">
+      
+        
+          
+            <a href="https://github.com/bestony" target="_blank" class="nav-icn iconfont icon-github"></a>
+          
+        
+      
+    </div>
+    <div class="menu">
+      
+        
+            <a href="/" class="nav-menu ">首页</a>
+          
+        
+            <a href="/categories" class="nav-menu ">目录</a>
+          
+        
+            <a href="/tags" class="nav-menu ">标签</a>
+          
+        
+            <a href="/archives" class="nav-menu ">归档</a>
+          
+        
+      
+    </div>
+  </div>
+</nav>
+    <div id="main"><section class="article">
+  <h2 class="title">Processor CopyAssets 插件源码分析</h2>
+  <p class="sub">8月 22, 2019</p>
+  <article class="content">
+    <p>项目地址：<a href="https://github.com/f111fei/hexo-processor-copyassets" target="_blank" rel="noopener">https://github.com/f111fei/hexo-processor-copyassets</a></p>
+<p>插件作用：可以指定特定文件不做预处理，直接 Copy 到目标目录</p>
+<p>这个插件使用的是 Hexo 的处理器 processor 相关的 API 来实现的功能。</p>
+<h2 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h2><p>首先，在其项目根目录的 <code>index.js</code> 文件中，初始化了 processor 变量，用于 Hexo 中的<a href="https://hexo.io/zh-cn/api/box#%E5%A4%84%E7%90%86%E5%99%A8%EF%BC%88Processor%EF%BC%89" target="_blank" rel="noopener">插件注册</a>。</p>
+<p>插件注册部分需要注意的是，<strong>传入的变量为待处理的文件的路径</strong>。所以，在该插件的 regsiter 代码中，先行获取了系统配置，如果尚未配置，则直接推出 false，表示不处理该文件。</p>
+<p>如果配置了路径，则对其进行 split 处理，从而拆解出各自的路径，方便进行后续的比对。</p>
+<p>在拆解完成后， 进行了一个 O(N) 级的循环进行对比，如果传入的 path 等同于配置中设定的数据，就返回 true。</p>
+<blockquote>
+<p>这里有两处需要注意的点：</p>
+<ol>
+<li>对比使用的是 <code>===</code> 三等号进行对比</li>
+<li>这里的对比进行了 substring 的对比，从而只对比相同长度的，从而确保设定了整个目录，可以将目录下的文件也对比到。</li>
+</ol>
+</blockquote>
+<p>相关代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> rule = <span class="function"><span class="keyword">function</span>(<span class="params">path</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!config.copyAssets) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  <span class="keyword">var</span> array = config.copyAssets.split(<span class="string">","</span>);</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> array)</span><br><span class="line">  &#123;</span><br><span class="line">	  <span class="keyword">if</span>(path.substring(<span class="number">0</span>,array[i].length) === array[i])</span><br><span class="line">	  &#123;</span><br><span class="line">		  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	  &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对应代码路径：<a href="https://github.com/f111fei/hexo-processor-copyassets/blob/3fe878af4724632709ea4ee0d9d1df81e9cf269c/index.js#L10-L21" target="_blank" rel="noopener">https://github.com/f111fei/hexo-processor-copyassets/blob/3fe878af4724632709ea4ee0d9d1df81e9cf269c/index.js#L10-L21</a></p>
+<h2 id="copyAssets-js"><a href="#copyAssets-js" class="headerlink" title="copyAssets.js"></a>copyAssets.js</h2><p>在第二部分，我们看一看具体执行 copyAssets 的功能实现。在这一部分，定义了 module。</p>
+<p>这个 module 中的核心方法接受两个参数，分别是 data 和 callback，根据官方的<a href="https://hexo.io/zh-cn/api/box#%E5%A4%84%E7%90%86%E5%99%A8%EF%BC%88Processor%EF%BC%89" target="_blank" rel="noopener">说明</a>,其中的 data 是文件内容。</p>
+<p>随后实例化了 <a href="https://github.com/hexojs/hexo/blob/master/lib/models/asset.js" target="_blank" rel="noopener">Assets Model</a> ，这个 Model 将会帮助我们去处理文件。</p>
+<p>随后，根据文件的状态，执行删除操作(如果文件被标记为 delete )。</p>
+<p>后续则判断该文件是否存在，如果以及存在，则更新 Path ，并标记为 update。</p>
+<p>如果文件不存在，则执行重新插入。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">data, callback</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> Asset = hexo.model(<span class="string">'Asset'</span>),</span><br><span class="line">    source = data.source.substring(hexo.base_dir.length),</span><br><span class="line">    doc = Asset.get(source);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (data.type === <span class="string">'delete'</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span> (doc)&#123;</span><br><span class="line">      hexo.route.remove(data.path);</span><br><span class="line">      doc.remove();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> callback();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (doc)&#123;</span><br><span class="line">    doc.path = data.path;</span><br><span class="line">    doc.modified = data.type === <span class="string">'update'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    doc.save(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      callback();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    Asset.insert(&#123;</span><br><span class="line">      _id: source,</span><br><span class="line">      path: data.path,</span><br><span class="line">      modified: <span class="literal">true</span></span><br><span class="line">    &#125;, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      callback();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><ol>
+<li>Hexo 中文件的 4 种状态都是什么，以及其作用是什么？</li>
+<li>Assets 的几个方法是如何定义的？</li>
+</ol>
+  </article>
+  <footer class="f-cf">
+    
+    
+      <a href="/2019/08/22/hello-world/" class="link f-fr">Hexo.tv 开站了⟶</a>
+    
+  </footer>
+</section></div>
+    <footer id="footer" class="f-cf">
+  xiqingongzi+hexo@gmail.com
+  
+    
+      
+        · <a href="https://github.com/bestony" target="_blank" class="nav-icn">GitHub</a>
+      
+    
+  
+  <span class="copyright">All rights reserved @HuanCheng Bai</span>
+</footer>
+  </div>
+</body>
+</html>
