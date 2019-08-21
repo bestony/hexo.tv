@@ -73,13 +73,9 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: hexo-theme-autumn
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:bestony/hexo.tv.git
-  branch: gh-pages
-  name: bestony
-  email: xiqingongzi@gmail.com
