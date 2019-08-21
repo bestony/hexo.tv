@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Tag Eventbrite 插件源码分析 | Hexo.tv</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这个插件可以将你的 Eventbrite 账户中的 Events 显示在 Hexo 文章中。">
+<meta name="keywords" content="源码分析,插件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tag Eventbrite 插件源码分析">
+<meta property="og:url" content="https://hexo.tv/2019/08/22/Tag-for-insert-Eventbrite-events/index.html">
+<meta property="og:site_name" content="Hexo.tv">
+<meta property="og:description" content="这个插件可以将你的 Eventbrite 账户中的 Events 显示在 Hexo 文章中。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-08-21T18:14:53.187Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tag Eventbrite 插件源码分析">
+<meta name="twitter:description" content="这个插件可以将你的 Eventbrite 账户中的 Events 显示在 Hexo 文章中。">
+  
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+</html>
+<body style="
+
+
+  background-color: #eff0f6
+
+">
+  <div id="container">
+    <nav id="nav">
+  <header class="header">
+    <a href="/" class="title">Hexo TV</a>
+  </header>
+  <div class="ctnWrap">
+    <div class="icons">
+      
+        
+          
+            <a href="https://github.com/bestony" target="_blank" class="nav-icn iconfont icon-github"></a>
+          
+        
+      
+    </div>
+    <div class="menu">
+      
+        
+            <a href="/" class="nav-menu ">首页</a>
+          
+        
+            <a href="/categories" class="nav-menu ">目录</a>
+          
+        
+            <a href="/tags" class="nav-menu ">标签</a>
+          
+        
+            <a href="/archives" class="nav-menu ">归档</a>
+          
+        
+      
+    </div>
+  </div>
+</nav>
+    <div id="main"><section class="article">
+  <h2 class="title">Tag Eventbrite 插件源码分析</h2>
+  <p class="sub">8月 22, 2019</p>
+  <article class="content">
+    <p>项目地址：<a href="https://github.com/g100g/hexo-tag-eventbrite" target="_blank" rel="noopener">https://github.com/g100g/hexo-tag-eventbrite</a></p>
+<p>插件作用：将用户 <a href="https://www.eventbrite.com/" target="_blank" rel="noopener">Eventbrite</a> 中的活动展示在项目中。</p>
+<h2 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h2><p>这个项目引用了多个依赖包，包括 </p>
+<ul>
+<li>moment： 用于时间的 format</li>
+<li>lodash： 用于加载依赖</li>
+<li>nbrite： Eventbrite 的 Node.js 的 API Client</li>
+</ul>
+<p>在这个文件中，我们首先要看一下底部的注册方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tags.register(<span class="string">'eventbrite'</span>, eventbrite, &#123;</span><br><span class="line">  <span class="keyword">async</span>: <span class="literal">true</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>这个方法注册了一个新的 tag，从而我们可以用 eventbrite 标签来完成我们想要的特性。而其中的 <code>async</code> 参数，则可以将这个方法的返回值设置为 promise。</p>
+<blockquote>
+<p>相关方法的文档:<a href="https://github.com/hexojs/hexo/blob/651f34bf6d2be5cb9c07009e857a73ecad3b414c/lib/extend/tag.js#L15-L44" target="_blank" rel="noopener">Link</a></p>
+</blockquote>
+<p>随后，我们看一下其注册的方法 eventbrite，这个方法表示我们在执行 <code>eventbrite</code> 标签后，会调用 <code>eventbrite</code> 方法。</p>
+<p>这个方法的内容比较简单，调用了 <code>getToken</code> 和 <code>getTemplate</code>，并获取对应的内容。</p>
+<p>最后，调用 nbrite 提供的接口，获取到用户的信息，并在其回调中，与 template 进行整合，从而返回经过美化后的数据。</p>
+<p>这里需要注意，在与模板进行数据整合时，数据使用 map 方法进行了 format ，从而确保展示的数据更加的友好,具体可以看  <code>beatifyDate</code> 和 <code>howManyTime</code> 方法。</p>
+<h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><ol>
+<li>这个项目还有什么可以优化的点？<br>答：可以将配置从 Config 移动到 Hexo 的配置文件中。</li>
+</ol>
+  </article>
+  <footer class="f-cf">
+    
+    
+      <a href="/2019/08/22/Processor-CopyAssets-Plugin/" class="link f-fr">Processor CopyAssets 插件源码分析⟶</a>
+    
+  </footer>
+</section></div>
+    <footer id="footer" class="f-cf">
+  xiqingongzi+hexo@gmail.com
+  
+    
+      
+        · <a href="https://github.com/bestony" target="_blank" class="nav-icn">GitHub</a>
+      
+    
+  
+  <span class="copyright">All rights reserved @HuanCheng Bai</span>
+</footer>
+  </div>
+</body>
+</html>
