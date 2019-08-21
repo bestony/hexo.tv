@@ -78,4 +78,8 @@ theme: landscape
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: git
+  repo: git@github.com:bestony/hexo.tv.git
+  branch: gh-pages
+  name: bestony
+  email: xiqingongzi@gmail.com
