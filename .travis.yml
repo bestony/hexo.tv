@@ -12,6 +12,6 @@ deploy:
   skip_cleanup: true
   github_token: $GITHUB_TOKEN  
   keep_history: true
-  fqdn: "www.chengxuzhoukan.com"
+  fqdn: "hexo.tv"
   on:
     branch: master
