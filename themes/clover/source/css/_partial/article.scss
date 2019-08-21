@@ -31,6 +31,15 @@ $brand-color: #f0534e;
       margin-bottom: 15px;
     }
 
+    em {
+      font-style: italic;
+    }
+
+    code {
+      font-style: italic;
+      color: $brand-color;
+    }
+
     pre, .highlight {
       overflow: auto;;
       padding: 0;
