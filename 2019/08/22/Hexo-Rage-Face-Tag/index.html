@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Rage Face Tag 插件分析 | Hexo.tv</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这个插件可以帮你快速插入 memes.at 的表情包。">
+<meta name="keywords" content="源码分析,插件,拓展标签">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rage Face Tag 插件分析">
+<meta property="og:url" content="https://hexo.tv/2019/08/22/Hexo-Rage-Face-Tag/index.html">
+<meta property="og:site_name" content="Hexo.tv">
+<meta property="og:description" content="这个插件可以帮你快速插入 memes.at 的表情包。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-08-21T18:46:42.724Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Rage Face Tag 插件分析">
+<meta name="twitter:description" content="这个插件可以帮你快速插入 memes.at 的表情包。">
+  
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+</html>
+<body style="
+
+
+  background-color: #eff0f6
+
+">
+  <div id="container">
+    <nav id="nav">
+  <header class="header">
+    <a href="/" class="title">Hexo TV</a>
+  </header>
+  <div class="ctnWrap">
+    <div class="icons">
+      
+        
+          
+            <a href="https://github.com/bestony" target="_blank" class="nav-icn iconfont icon-github"></a>
+          
+        
+      
+    </div>
+    <div class="menu">
+      
+        
+            <a href="/" class="nav-menu ">首页</a>
+          
+        
+            <a href="/categories" class="nav-menu ">目录</a>
+          
+        
+            <a href="/tags" class="nav-menu ">标签</a>
+          
+        
+            <a href="/archives" class="nav-menu ">归档</a>
+          
+        
+      
+    </div>
+  </div>
+</nav>
+    <div id="main"><section class="article">
+  <h2 class="title">Rage Face Tag 插件分析</h2>
+  <p class="sub">8月 22, 2019</p>
+  <article class="content">
+    <p>项目地址：<a href="https://github.com/xunnanxu/hexo-tag-rage-face" target="_blank" rel="noopener">https://github.com/xunnanxu/hexo-tag-rage-face</a></p>
+<p>插件作用：帮你快速插入 memes.at 的表情包。</p>
+<h2 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h2><p>这个项目的作者在写作时是十分简单，除了 regsiter 以外，只有两个辅助的函数，作者<del>可能是为了少写一个函数</del>，直接在 register 的参数中写具体的函数当然，<strong>并不推荐大家这样做</strong>。</p>
+<p>这个项目的引用中，一个值得学习的点，便是引入了 Hexo 的 Logger，可以方便进行后续的调试</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> logger = <span class="built_in">require</span>(<span class="string">'hexo-log'</span>)(hexo.env);</span><br></pre></td></tr></table></figure>
+
+<p>其次，在代码中，实现了一个 <a href="https://github.com/xunnanxu/hexo-tag-rage-face/blob/1935704c7d2145db20d8c09a4825c82dbfcfdf47/index.js#L38-L52" target="_blank" rel="noopener">parseArgs 方法</a>，这个方法完成了对于 K:V 形态的参数的解析，从而方便在后续生成标签时，加入具体的样式和属性。</p>
+<p>其他值得学习的倒是不多，便不再赘述。如果有问题，可以联系我。</p>
+<h2 id="Qustion"><a href="#Qustion" class="headerlink" title="Qustion"></a>Qustion</h2><ol>
+<li>hexo-log 的方法有哪些。</li>
+</ol>
+  </article>
+  <footer class="f-cf">
+    
+    
+      <a href="/2019/08/22/Tag-for-insert-Eventbrite-events/" class="link f-fr">Tag Eventbrite 插件源码分析⟶</a>
+    
+  </footer>
+</section></div>
+    <footer id="footer" class="f-cf">
+  xiqingongzi+hexo@gmail.com
+  
+    
+      
+        · <a href="https://github.com/bestony" target="_blank" class="nav-icn">GitHub</a>
+      
+    
+  
+  <span class="copyright">All rights reserved @HuanCheng Bai</span>
+</footer>
+  </div>
+</body>
+</html>

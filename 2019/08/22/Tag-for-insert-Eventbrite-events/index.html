@@ -6,14 +6,14 @@
   <title>Tag Eventbrite 插件源码分析 | Hexo.tv</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="这个插件可以将你的 Eventbrite 账户中的 Events 显示在 Hexo 文章中。">
-<meta name="keywords" content="源码分析,插件">
+<meta name="keywords" content="源码分析,插件,拓展标签">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Tag Eventbrite 插件源码分析">
 <meta property="og:url" content="https://hexo.tv/2019/08/22/Tag-for-insert-Eventbrite-events/index.html">
 <meta property="og:site_name" content="Hexo.tv">
 <meta property="og:description" content="这个插件可以将你的 Eventbrite 账户中的 Events 显示在 Hexo 文章中。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-21T18:14:53.187Z">
+<meta property="og:updated_time" content="2019-08-21T18:46:42.724Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tag Eventbrite 插件源码分析">
 <meta name="twitter:description" content="这个插件可以将你的 Eventbrite 账户中的 Events 显示在 Hexo 文章中。">
@@ -84,11 +84,14 @@
 <p>这个方法的内容比较简单，调用了 <code>getToken</code> 和 <code>getTemplate</code>，并获取对应的内容。</p>
 <p>最后，调用 nbrite 提供的接口，获取到用户的信息，并在其回调中，与 template 进行整合，从而返回经过美化后的数据。</p>
 <p>这里需要注意，在与模板进行数据整合时，数据使用 map 方法进行了 format ，从而确保展示的数据更加的友好,具体可以看  <code>beatifyDate</code> 和 <code>howManyTime</code> 方法。</p>
+<p>相关文件源码：<a href="https://github.com/G100g/hexo-tag-eventbrite/blob/master/index.js" target="_blank" rel="noopener">https://github.com/G100g/hexo-tag-eventbrite/blob/master/index.js</a></p>
 <h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><ol>
 <li>这个项目还有什么可以优化的点？<br>答：可以将配置从 Config 移动到 Hexo 的配置文件中。</li>
 </ol>
   </article>
   <footer class="f-cf">
+    
+      <a href="/2019/08/22/Hexo-Rage-Face-Tag/" class="link f-fl">⟵Rage Face Tag 插件分析</a>
     
     
       <a href="/2019/08/22/Processor-CopyAssets-Plugin/" class="link f-fr">Processor CopyAssets 插件源码分析⟶</a>
