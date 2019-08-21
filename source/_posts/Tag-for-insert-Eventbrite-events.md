@@ -4,6 +4,7 @@ date: 2019-08-22 01:54:37
 tags:
 - 源码分析
 - 插件
+- 拓展标签
 categories:
 - 插件源码分析
 ---
@@ -44,6 +45,8 @@ tags.register('eventbrite', eventbrite, {
 最后，调用 nbrite 提供的接口，获取到用户的信息，并在其回调中，与 template 进行整合，从而返回经过美化后的数据。
 
 这里需要注意，在与模板进行数据整合时，数据使用 map 方法进行了 format ，从而确保展示的数据更加的友好,具体可以看  `beatifyDate` 和 `howManyTime` 方法。
+
+相关文件源码：https://github.com/G100g/hexo-tag-eventbrite/blob/master/index.js
 
 ## Question
 
