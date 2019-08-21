@@ -27,9 +27,10 @@ menu:
   # Stuffs:
   #   path: /tags/Stuffs
   #   card: article-card
-  Home: /
-  Archive: /archives
-  About: /about
+  首页: /
+  目录: /categories
+  标签: /tags
+  归档: /archives
 
 # Specific default categories or tags of home page.
 # Post which belongs to `category` or `tag` and don't belongs to `except_category` or `except_tag` will be filtered.
