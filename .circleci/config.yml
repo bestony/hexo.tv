@@ -12,7 +12,7 @@ jobs:
             - v1-dependencies-{{ checksum "package.json" }}
             - v1-dependencies-
 
-      - run: npm install hexo-cli -g
+      - run: yarn install
 
       - save_cache:
           paths:
@@ -20,4 +20,4 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: hexo generate
+      - run: yarn run build
